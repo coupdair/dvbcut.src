@@ -42,6 +42,10 @@ extern "C" {
 #include "mpgfile.h"
 #include "index.h"
 
+//CImg
+#include "CImg.h"
+using namespace cimg_library;
+
 #include "gettext.h"
 
 #include "version.h"
@@ -267,6 +271,13 @@ fprintf(stderr, "DVBcut/batchmode\n");
   }
   else {
 fprintf(stderr, "DVBcut/GUI\n");
+
+//CImg
+CImg<int> img(12,23,1,3);
+img.fill(123);
+img.print("img");
+//img.display("img");
+
     main->show();
 
     if (!filenames.empty())
