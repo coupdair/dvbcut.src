@@ -73,6 +73,7 @@ index::~index()
 
 int index::generate(const char *savefilename, std::string *errorstring, logoutput *log)
   {
+fprintf(stderr, "index::generate\n");
   int fd=-1;
   bool usestdout=false;
   int pictureswritten=0;
@@ -92,6 +93,7 @@ int index::generate(const char *savefilename, std::string *errorstring, logoutpu
     }
 
   int size=90000;
+fprintf(stderr, "index::generate/start with %d picture size.\n",size);
 
   if (p) {
     if (pictures>0)
@@ -421,8 +423,10 @@ int index::generate(const char *savefilename, std::string *errorstring, logoutpu
 #endif
   fprintf(stderr, "Max. input bitrate of %d kbps detected at %s\n", int(maxbitrate/1024), ptsstring(maxbitratepts-firstseqheaderpts).c_str());
 
+fprintf(stderr, "index::generate/%d pictures in video file.\n",pictures);
+
   return check();
-  }
+  }//index::generate
 
 int
 index::save(int fd, std::string *errorstring, bool closeme) {
