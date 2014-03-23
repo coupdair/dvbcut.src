@@ -55,6 +55,9 @@ void imageprovider::shrinkcache(int free)
 
 QImage imageprovider::getimage(int picture, bool decodeallgop)
   {
+
+fprintf(stderr, "imageprovider::getimage(%d)\n",picture);
+
   if (picture < 0 || picture >= m.getpictures())
     return QImage();
 
