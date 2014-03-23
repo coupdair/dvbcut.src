@@ -65,7 +65,7 @@ fprintf(stderr, "imageprovider::getimage(%d)\n",picture);
     if (it->first == picture) {
       framecache.push_front(*it);
       framecache.erase(it);
-fprintf(stderr, "imageprovider::getimage/buffer image\n",
+fprintf(stderr, "imageprovider::getimage/buffer image\n");
       //return previously decoded image
       return framecache.front().second;
       }
@@ -82,7 +82,7 @@ fprintf(stderr, "imageprovider::getimage/buffer image\n",
     if (it->first == picture) {
       framecache.push_front(*it);
       framecache.erase(it);
-fprintf(stderr, "imageprovider::getimage/decode image\n",
+fprintf(stderr, "imageprovider::getimage/decode image\n");
       //return currently decoded image
       return framecache.front().second;
       }

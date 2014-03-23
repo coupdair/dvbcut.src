@@ -1606,7 +1606,11 @@ qGreen(value),
 qBlue(value)
 );
 
-//modify last line ?
+/*
+//graph
+if(graph.isNull()) {graph=QImage(px.width(),1,px.format());graph.fill(0);}
+else graph.setPixel(curpic,1,value);
+*/
 
     ui->imagedisplay->setMinimumSize(px.size());
     ui->imagedisplay->setPixmap(QPixmap::fromImage(px));
