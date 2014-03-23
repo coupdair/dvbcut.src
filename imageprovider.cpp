@@ -65,6 +65,7 @@ fprintf(stderr, "imageprovider::getimage(%d)\n",picture);
     if (it->first == picture) {
       framecache.push_front(*it);
       framecache.erase(it);
+      //return previously decoded image
       return framecache.front().second;
       }
 
@@ -88,10 +89,18 @@ framecache.front().second.width(),
 framecache.front().second.height(),
 framecache.front().second.depth()
 );
-//QRgb value=framecache.front().second.pixel(,);
-//fprintf(stderr, "imageprovider::getimage/value=(%d,%d,%d).\n",
-//value.);
+int x,y;
+x=440;
+y=190;
+QRgb value=framecache.front().second.pixel(x,y);
+fprintf(stderr, "imageprovider::getimage/value(%d,%d)=(%d,%d,%d).\n",
+x,y,
+qRed(value),
+qGreen(value),
+qBlue(value)
+);
 
+      //return currently decoded image
       return framecache.front().second;
       }
 
