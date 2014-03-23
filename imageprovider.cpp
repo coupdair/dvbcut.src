@@ -80,10 +80,15 @@ fprintf(stderr, "imageprovider::getimage(%d)\n",picture);
     if (it->first == picture) {
       framecache.push_front(*it);
       framecache.erase(it);
+//return decoded image
+///framecache.front().second //QImage
+fprintf(stderr, "imageprovider::getimage/widthx%d pixel.\n",
+framecache.front().second.height()
+);
       return framecache.front().second;
       }
 
-  return QImage();
+  return QImage();//empty QImage
   }
 
 void imageprovider::decodepicture(int picture, bool decodeallgop)
