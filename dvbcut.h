@@ -95,7 +95,6 @@ protected:
   QString mplayer_out;
   pts_t mplayer_curpts;
   imageprovider *imgp;
-//QImage graph;
   int busy;
   double viewscalefactor;
   int currentaudiotrack;
