@@ -32,6 +32,10 @@
 class QProcess;
 class imageprovider;
 
+//CImg
+//#include "CImg.h"
+//using namespace cimg_library;
+
 class dvbcut: public Q3MainWindow
   {
   Q_OBJECT
@@ -95,6 +99,8 @@ protected:
   QString mplayer_out;
   pts_t mplayer_curpts;
   imageprovider *imgp;
+//CImg
+//CImg<char> graph;
   int busy;
   double viewscalefactor;
   int currentaudiotrack;

@@ -1586,10 +1586,28 @@ void dvbcut::mplayer_readstdout()
 
 void dvbcut::updateimagedisplay()
 {
+fprintf(stderr, "dvbcut::updateimagedisplay\n");
   if (showimage) {
     if (!imgp)
       imgp=new imageprovider(*mpg,new dvbcutbusy(this),false,viewscalefactor);
     QImage px=imgp->getimage(curpic,fine);
+
+//current image
+fprintf(stderr, "dvbcut::updateimagedisplay/%dx%d pixel of type %d bit.\n",
+px.width(),px.height(),px.depth());
+int x,y;
+x=440;
+y=190;
+QRgb value=px.pixel(x,y);
+fprintf(stderr, "dvbcut::updateimagedisplay/value(%d,%d)=(%d,%d,%d).\n",
+x,y,
+qRed(value),
+qGreen(value),
+qBlue(value)
+);
+
+//modify last line ?
+
     ui->imagedisplay->setMinimumSize(px.size());
     ui->imagedisplay->setPixmap(QPixmap::fromImage(px));
     ui->imagedisplay->update();
