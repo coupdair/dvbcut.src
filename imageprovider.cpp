@@ -80,11 +80,18 @@ fprintf(stderr, "imageprovider::getimage(%d)\n",picture);
     if (it->first == picture) {
       framecache.push_front(*it);
       framecache.erase(it);
+
 //return decoded image
 ///framecache.front().second //QImage
-fprintf(stderr, "imageprovider::getimage/widthx%d pixel.\n",
-framecache.front().second.height()
+fprintf(stderr, "imageprovider::getimage/%dx%d pixel of type %d bit.\n",
+framecache.front().second.width(),
+framecache.front().second.height(),
+framecache.front().second.depth()
 );
+//QRgb value=framecache.front().second.pixel(,);
+//fprintf(stderr, "imageprovider::getimage/value=(%d,%d,%d).\n",
+//value.);
+
       return framecache.front().second;
       }
 
