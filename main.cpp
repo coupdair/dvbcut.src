@@ -205,6 +205,8 @@ main(int argc, char *argv[]) {
   ao_initialize();
 #endif // HAVE_LIB_AO
 
+fprintf(stderr, "DVBcut/main\n");
+
   av_register_all();
 
   int rv=1;
@@ -213,6 +215,7 @@ main(int argc, char *argv[]) {
   main->exportoptions(exportformat,start_bof,stop_eof);
 
   if (batchmode) {
+fprintf(stderr, "DVBcut/batchmode\n");
     if (filenames.empty())	// must provide at least one filename
       usage_exit();
     main->open(filenames,idxfilename,expfilename);
@@ -263,6 +266,7 @@ main(int argc, char *argv[]) {
     rv = 0;
   }
   else {
+fprintf(stderr, "DVBcut/GUI\n");
     main->show();
 
     if (!filenames.empty())
