@@ -1611,8 +1611,16 @@ qBlue(value)
     ui->imagedisplay->update();
     qApp->processEvents();
 
-single_pixel_sequence.reserve(px.width());
-single_pixel_sequence.push_back(qBlue(value));
+//init
+if(single_pixel_sequence.empty())
+{
+fprintf(stderr,"dvbcut::updateimagedisplay/size single_pixel_sequence.");
+  single_pixel_sequence.resize(px.width());//TODO: setup pictures
+  for(unsigned int i=0;i<single_pixel_sequence.size();++i) single_pixel_sequence[i]=0;
+}
+//set value
+single_pixel_sequence[curpic]=qBlue(value);
+//print
 fprintf(stderr,"dvbcut::updateimagedisplay/single_pixel_sequence=[");
 for(unsigned int i=0;i<single_pixel_sequence.size();++i)
   fprintf(stderr,"%d,",single_pixel_sequence[i]);
