@@ -967,23 +967,32 @@ void dvbcut::editSuggest()
   statusBar()->showMessage(QString("*** single pixel discontinuity running ... ***"));
 
 //init CIMG
+int seq_size;
 if(single_pixel_sequence.empty())
 {
-fprintf(stderr,"dvbcut::updateimagedisplay/size single_pixel_sequence.");
-  single_pixel_sequence.resize(pictures*4);//RGBA storage
-  for(unsigned int i=0;i<single_pixel_sequence.size();++i) single_pixel_sequence[i]=0;
+fprintf(stderr,"dvbcut::editSuggest/size single_pixel_sequence.");
+  seq_size=512;//default screen size; TODO: set by window width.
+  if(pictures<seq_size) seq_size=pictures;
+  single_pixel_sequence.resize(seq_size*4);//RGBA storage
+  for(unsigned int i=0;i<single_pixel_sequence.size();++i) single_pixel_sequence[i]=0;//fill with 0
 }
 //decode images
 if (!imgp)
   imgp=new imageprovider(*mpg,new dvbcutbusy(this),false,viewscalefactor);
-for(unsigned int i=0;i<single_pixel_sequence.size()/4;++i)
+  seq_size=single_pixel_sequence.size()/4;//RGBA
+  int increment=pictures/seq_size;
+  if(increment<1) increment=1;
+fprintf(stderr,"dvbcut::editSuggest/sequence size=%d, pictures=%d, increment=%d.\n",seq_size,pictures,increment);
+  int x,y;
+x=440;//default position; TODO: set by mouse.
+y=190;//default
+//decode loop
+unsigned int f=0;//frame
+for(unsigned int i=0;i<seq_size;++i,f+=increment)
 {
   //decode image
-  QImage px=imgp->getimage(i,fine);
+  QImage px=imgp->getimage(f,fine);//TODO: fine or coars
   //select single pixel
-  int x,y;
-x=440;
-y=190;
   QRgb value=px.pixel(x,y);
 
 //set value
@@ -991,13 +1000,17 @@ single_pixel_sequence[i*4]  =qRed(value);
 single_pixel_sequence[i*4+1]=qGreen(value);
 single_pixel_sequence[i*4+2]=qBlue(value);
 single_pixel_sequence[i*4+3]=qAlpha(value);
-}
+//TODO: setup progress bar
+}//decode loop
 
 CImg_print(single_pixel_sequence,true);
 
+//future detect
+//CImg_detect_single_pixel_discontinuity(single_pixel_sequence,true);
+
   statusBar()->showMessage(QString("*** single pixel discontinuity done. ***"));
 
-/**/
+/*CIMG*/
 }
 
 void dvbcut::editImport()
@@ -1625,50 +1638,14 @@ void dvbcut::mplayer_readstdout()
 
 void dvbcut::updateimagedisplay()
 {
-fprintf(stderr, "dvbcut::updateimagedisplay\n");
   if (showimage) {
     if (!imgp)
       imgp=new imageprovider(*mpg,new dvbcutbusy(this),false,viewscalefactor);
     QImage px=imgp->getimage(curpic,fine);
-
-//current image CIMG
-fprintf(stderr, "dvbcut::updateimagedisplay/%dx%d pixel of type %d bit.\n",
-px.width(),px.height(),px.depth());
-int x,y;
-x=440;
-y=190;
-QRgb value=px.pixel(x,y);
-fprintf(stderr, "dvbcut::updateimagedisplay/value(%d,%d)=(%d,%d,%d).\n",
-x,y,
-qRed(value),
-qGreen(value),
-qBlue(value)
-);
-
     ui->imagedisplay->setMinimumSize(px.size());
     ui->imagedisplay->setPixmap(QPixmap::fromImage(px));
     ui->imagedisplay->update();
     qApp->processEvents();
-
-//init CIMG
-if(single_pixel_sequence.empty())
-{
-fprintf(stderr,"dvbcut::updateimagedisplay/size single_pixel_sequence.");
-  single_pixel_sequence.resize(pictures*4);//RGBA storage
-  for(unsigned int i=0;i<single_pixel_sequence.size();++i) single_pixel_sequence[i]=0;
-}
-//set value
-single_pixel_sequence[curpic*4]  =qRed(value);
-single_pixel_sequence[curpic*4+1]=qGreen(value);
-single_pixel_sequence[curpic*4+2]=qBlue(value);
-single_pixel_sequence[curpic*4+3]=qAlpha(value);
-//print
-fprintf(stderr,"dvbcut::updateimagedisplay/single_pixel_sequence=[");
-for(unsigned int i=0;i<single_pixel_sequence.size();)
-  fprintf(stderr,"%d,%d,%d,%d, ",single_pixel_sequence[i++],single_pixel_sequence[i++],single_pixel_sequence[i++],single_pixel_sequence[i++]);
-fprintf(stderr,"]\n");
-CImg_print(single_pixel_sequence,curpic==pictures-1);
-
   }//showimage
 }//updateimagedisplay
 
