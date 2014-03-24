@@ -1615,7 +1615,7 @@ qBlue(value)
 if(single_pixel_sequence.empty())
 {
 fprintf(stderr,"dvbcut::updateimagedisplay/size single_pixel_sequence.");
-  single_pixel_sequence.resize(px.width());//TODO: setup pictures
+  single_pixel_sequence.resize(pictures);//TODO: setup 
   for(unsigned int i=0;i<single_pixel_sequence.size();++i) single_pixel_sequence[i]=0;
 }
 //set value
