@@ -104,7 +104,7 @@ protected:
   bool stop_eof;
   Ui::dvbcutbase* ui;
 
-std::vector<unsigned char> single_pixel_sequence;//presently: len*B, WiP: len*RGBA
+std::vector<unsigned char> single_pixel_sequence;//len*RGBA
   
 protected:
   //   QPixmap getpixmap(int picture, bool allgop=false);
