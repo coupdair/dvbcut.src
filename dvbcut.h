@@ -95,6 +95,7 @@ protected:
   QString mplayer_out;
   pts_t mplayer_curpts;
   imageprovider *imgp;
+std::vector<unsigned char> single_pixel_sequence;//len*RGBA
   int busy;
   double viewscalefactor;
   int currentaudiotrack;
