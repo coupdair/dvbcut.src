@@ -954,6 +954,7 @@ void dvbcut::editAutoChapters()
 
 void dvbcut::editSuggest()
 {
+/* aspect ratio discontinuity * /
   int pic = 0, found=0;
   while ((pic = mpg->nextaspectdiscontinuity(pic)) >= 0) {
     addEventListItem(pic, EventListItem::bookmark);
@@ -961,6 +962,10 @@ void dvbcut::editSuggest()
   }
   if (!found)  
     statusBar()->showMessage(QString("*** No aspect ratio changes detected! ***"));   
+/**/
+/* single pixel discontinuity CIMG */
+  statusBar()->showMessage(QString("*** single pixel discontinuity not implemented, yet ! ***"));
+/**/
 }
 
 void dvbcut::editImport()
@@ -1594,7 +1599,7 @@ fprintf(stderr, "dvbcut::updateimagedisplay\n");
       imgp=new imageprovider(*mpg,new dvbcutbusy(this),false,viewscalefactor);
     QImage px=imgp->getimage(curpic,fine);
 
-//current image
+//current image CIMG
 fprintf(stderr, "dvbcut::updateimagedisplay/%dx%d pixel of type %d bit.\n",
 px.width(),px.height(),px.depth());
 int x,y;
@@ -1613,7 +1618,7 @@ qBlue(value)
     ui->imagedisplay->update();
     qApp->processEvents();
 
-//init
+//init CIMG
 if(single_pixel_sequence.empty())
 {
 fprintf(stderr,"dvbcut::updateimagedisplay/size single_pixel_sequence.");
