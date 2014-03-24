@@ -18,6 +18,8 @@
 
 /* $Id$ */
 
+//#include "cimg.h"
+
 #include <cstring>
 #include <cstdlib>
 #include <cstdio>
@@ -36,10 +38,8 @@ using namespace cimg_library;
 void CImg_print(std::vector<unsigned char> single_pixel_sequence)
 {
   //print
-  fprintf(stderr,"CImg_print/single_pixel_sequence=[");
-  for(unsigned int i=0;i<single_pixel_sequence.size();++i)
-    fprintf(stderr,"%d,",single_pixel_sequence[i]);
-  fprintf(stderr,"]\n");
+  CImg<unsigned char> data(&(single_pixel_sequence[0]),single_pixel_sequence.size());
+  data.print("CImg_print/single_pixel_sequence");
   return;
 }
 
