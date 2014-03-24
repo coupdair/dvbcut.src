@@ -1627,10 +1627,10 @@ fprintf(stderr,"dvbcut::updateimagedisplay/single_pixel_sequence=[");
 for(unsigned int i=0;i<single_pixel_sequence.size();++i)
   fprintf(stderr,"%d,",single_pixel_sequence[i]);
 fprintf(stderr,"]\n");
-CImg_print(single_pixel_sequence);
+CImg_print(single_pixel_sequence,curpic==pictures-1);
 
-  }
-}
+  }//showimage
+}//updateimagedisplay
 
 void dvbcut::audiotrackchosen(int id)
 {

@@ -1,5 +1,5 @@
-/*  dvbcut
-    Copyright (c) 2005 Sven Over <svenover@svenover.de>
+/*  dvbcut with CImg
+    Copyright (c) 2014 SC
  
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,11 +25,17 @@
 using namespace cimg_library;
 
 
-void CImg_print(std::vector<unsigned char> single_pixel_sequence)
+void CImg_print(std::vector<unsigned char> single_pixel_sequence, bool show=false)
 {
   //print
   CImg<unsigned char> data(&(single_pixel_sequence[0]),single_pixel_sequence.size());
   data.print("CImg_print/single_pixel_sequence");
+  if(show)
+  {
+    data.display("CImg_print/single_pixel_sequence");
+    data.display_graph("CImg_print/single_pixel_sequence");
+    data.save("dvbcut_single_pixel_sequence_graph.tif");
+  }
   return;
 }
 
