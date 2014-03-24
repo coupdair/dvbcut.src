@@ -95,7 +95,6 @@ protected:
   QString mplayer_out;
   pts_t mplayer_curpts;
   imageprovider *imgp;
-std::vector<unsigned char> single_pixel_sequence;//len*RGBA
   int busy;
   double viewscalefactor;
   int currentaudiotrack;
@@ -104,6 +103,8 @@ std::vector<unsigned char> single_pixel_sequence;//len*RGBA
   bool start_bof; 
   bool stop_eof;
   Ui::dvbcutbase* ui;
+
+std::vector<unsigned char> single_pixel_sequence;//len*RGBA
   
 protected:
   //   QPixmap getpixmap(int picture, bool allgop=false);

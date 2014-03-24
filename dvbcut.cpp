@@ -1606,19 +1606,18 @@ qGreen(value),
 qBlue(value)
 );
 
-/*
+    ui->imagedisplay->setMinimumSize(px.size());
+    ui->imagedisplay->setPixmap(QPixmap::fromImage(px));
+    ui->imagedisplay->update();
+    qApp->processEvents();
+
 single_pixel_sequence.reserve(px.width());
 single_pixel_sequence.push_back(qBlue(value));
 fprintf(stderr,"dvbcut::updateimagedisplay/single_pixel_sequence=[");
 for(unsigned int i=0;i<single_pixel_sequence.size();++i)
   fprintf(stderr,"%d,",single_pixel_sequence[i]);
 fprintf(stderr,"]\n");
-*/
 
-    ui->imagedisplay->setMinimumSize(px.size());
-    ui->imagedisplay->setPixmap(QPixmap::fromImage(px));
-    ui->imagedisplay->update();
-    qApp->processEvents();
   }
 }
 
