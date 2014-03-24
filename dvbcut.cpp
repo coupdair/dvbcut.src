@@ -1617,15 +1617,18 @@ qBlue(value)
 if(single_pixel_sequence.empty())
 {
 fprintf(stderr,"dvbcut::updateimagedisplay/size single_pixel_sequence.");
-  single_pixel_sequence.resize(pictures);//TODO: setup RGBA storage
+  single_pixel_sequence.resize(pictures*4);//WIP: setup RGBA storage
   for(unsigned int i=0;i<single_pixel_sequence.size();++i) single_pixel_sequence[i]=0;
 }
 //set value
-single_pixel_sequence[curpic]=qBlue(value);
+single_pixel_sequence[curpic*4]  =qRed(value);
+single_pixel_sequence[curpic*4+1]=qGreen(value);
+single_pixel_sequence[curpic*4+2]=qBlue(value);
+single_pixel_sequence[curpic*4+3]=qAlpha(value);
 //print
 fprintf(stderr,"dvbcut::updateimagedisplay/single_pixel_sequence=[");
-for(unsigned int i=0;i<single_pixel_sequence.size();++i)
-  fprintf(stderr,"%d,",single_pixel_sequence[i]);
+for(unsigned int i=0;i<single_pixel_sequence.size();)
+  fprintf(stderr,"%d,%d,%d,%d, ",single_pixel_sequence[i++],single_pixel_sequence[i++],single_pixel_sequence[i++],single_pixel_sequence[i++]);
 fprintf(stderr,"]\n");
 CImg_print(single_pixel_sequence,curpic==pictures-1);
 

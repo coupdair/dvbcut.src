@@ -25,16 +25,17 @@
 using namespace cimg_library;
 
 
-void CImg_print(std::vector<unsigned char> single_pixel_sequence, bool show=false)
+void CImg_print(std::vector<unsigned char> single_pixel_sequence, bool show)
 {
   //print
-  CImg<unsigned char> data(&(single_pixel_sequence[0]),single_pixel_sequence.size());
+  CImg<unsigned char> data(&(single_pixel_sequence[0]),4,single_pixel_sequence.size()/4);
+  data.permute_axes("yzcx");
   data.print("CImg_print/single_pixel_sequence");
   if(show)
   {
     data.display("CImg_print/single_pixel_sequence");
     data.display_graph("CImg_print/single_pixel_sequence");
-    data.save("dvbcut_single_pixel_sequence_graph.tif");
+    data.save("dvbcut_single_pixel_sequence_graph.tif");//see home directory
   }
   return;
 }
