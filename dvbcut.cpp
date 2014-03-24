@@ -69,6 +69,8 @@
 #include "settings.h"
 #include "exception.h"
 
+#include "cimg.h"
+
 #include "version.h"
 
 #define VERSION_STRING	"dvbcut " VERSION "/" REVISION
@@ -1615,7 +1617,7 @@ qBlue(value)
 if(single_pixel_sequence.empty())
 {
 fprintf(stderr,"dvbcut::updateimagedisplay/size single_pixel_sequence.");
-  single_pixel_sequence.resize(pictures);//TODO: setup 
+  single_pixel_sequence.resize(pictures);//TODO: setup RGBA storage
   for(unsigned int i=0;i<single_pixel_sequence.size();++i) single_pixel_sequence[i]=0;
 }
 //set value
@@ -1625,6 +1627,7 @@ fprintf(stderr,"dvbcut::updateimagedisplay/single_pixel_sequence=[");
 for(unsigned int i=0;i<single_pixel_sequence.size();++i)
   fprintf(stderr,"%d,",single_pixel_sequence[i]);
 fprintf(stderr,"]\n");
+CImg_print(single_pixel_sequence);
 
   }
 }
