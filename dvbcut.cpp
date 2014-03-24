@@ -964,7 +964,39 @@ void dvbcut::editSuggest()
     statusBar()->showMessage(QString("*** No aspect ratio changes detected! ***"));   
 /**/
 /* single pixel discontinuity CIMG */
-  statusBar()->showMessage(QString("*** single pixel discontinuity not implemented, yet ! ***"));
+  statusBar()->showMessage(QString("*** single pixel discontinuity running ... ***"));
+
+//init CIMG
+if(single_pixel_sequence.empty())
+{
+fprintf(stderr,"dvbcut::updateimagedisplay/size single_pixel_sequence.");
+  single_pixel_sequence.resize(pictures*4);//RGBA storage
+  for(unsigned int i=0;i<single_pixel_sequence.size();++i) single_pixel_sequence[i]=0;
+}
+//decode images
+if (!imgp)
+  imgp=new imageprovider(*mpg,new dvbcutbusy(this),false,viewscalefactor);
+for(unsigned int i=0;i<single_pixel_sequence.size()/4;++i)
+{
+  //decode image
+  QImage px=imgp->getimage(i,fine);
+  //select single pixel
+  int x,y;
+x=440;
+y=190;
+  QRgb value=px.pixel(x,y);
+
+//set value
+single_pixel_sequence[i*4]  =qRed(value);
+single_pixel_sequence[i*4+1]=qGreen(value);
+single_pixel_sequence[i*4+2]=qBlue(value);
+single_pixel_sequence[i*4+3]=qAlpha(value);
+}
+
+CImg_print(single_pixel_sequence,true);
+
+  statusBar()->showMessage(QString("*** single pixel discontinuity done. ***"));
+
 /**/
 }
 
