@@ -18,17 +18,7 @@
 
 /* $Id$ */
 
-//#include "cimg.h"
-
-#include <cstring>
-#include <cstdlib>
-#include <cstdio>
-#include <cerrno>
-#include <clocale>
-#include <string>
-#include <list>
-#include <unistd.h>
-#include <vector>
+#include "cimg.h"
 
 //CImg
 #include "CImg.h"
