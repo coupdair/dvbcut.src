@@ -24,11 +24,11 @@
 #include "CImg.h"
 using namespace cimg_library;
 
-
-void CImg_print(std::vector<unsigned char> single_pixel_sequence, bool show)
+template<typename T>
+void CImg_print(std::vector<T> single_pixel_sequence, bool show)
 {
   //print
-  CImg<unsigned char> data(&(single_pixel_sequence[0]),4,single_pixel_sequence.size()/4);
+  CImg<T> data(&(single_pixel_sequence[0]),4,single_pixel_sequence.size()/4);
   data.permute_axes("yzcx");
   data.print("CImg_print/single_pixel_sequence");
   if(show)
@@ -38,5 +38,10 @@ void CImg_print(std::vector<unsigned char> single_pixel_sequence, bool show)
     data.save("dvbcut_single_pixel_sequence_graph.tif");//see home directory
   }
   return;
+}
+
+void CImg_print(std::vector<unsigned char> single_pixel_sequence, bool show)
+{
+  return CImg_print(single_pixel_sequence,show);
 }
 
