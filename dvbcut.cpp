@@ -967,7 +967,7 @@ void dvbcut::editSuggest()
   statusBar()->showMessage(QString("*** single pixel discontinuity running ... ***"));
 
 //init CIMG
-unsigned int seq_size;
+int seq_size;
 if(single_pixel_sequence.empty())
 {
 fprintf(stderr,"dvbcut::editSuggest/size single_pixel_sequence.");
@@ -988,7 +988,7 @@ x=sps_x;//440;//CLI position; TODO: set by mouse.
 y=sps_y;//190;//from CLI
 //decode loop
 unsigned int f=0;//frame
-for(unsigned int i=0;i<seq_size;++i,f+=increment)
+for(unsigned int i=0;i<(unsigned int)seq_size;++i,f+=increment)
 {
   //decode image
   QImage px=imgp->getimage(f,fine);//TODO: fine or coars

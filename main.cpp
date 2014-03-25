@@ -128,8 +128,12 @@ main(int argc, char *argv[]) {
           if(strlen(pch))
             cutlist.push_back((std::string)pch);    
           pch = strtok(NULL,",-|;");                 
-        } 
-      } else 
+        }
+      }
+else if (strncmp(argv[i], "-s", n) == 0) ; //later process
+else if (strncmp(argv[i], "-x", n) == 0) ; //later process
+else if (strncmp(argv[i], "-y", n) == 0) ; //later process
+      else 
         usage_exit(); 
     } else
       // process input files 
@@ -219,9 +223,9 @@ fprintf(stderr, "DVBcut/main\n");
   main->exportoptions(exportformat,start_bof,stop_eof);
 
 //CIMG
-main->sps_size=512;
-main->sps_x=440;
-main->sps_y=190;
+main->sps_size=cimg_option("-s",512,"sps_size: bookmark size search (tmp: auto. window width in future).");
+main->sps_x=cimg_option("-x",440,"sps_x: pixel position along x axis.");
+main->sps_y=cimg_option("-y",190,"sps_y: pixel position along y axis (tmp: by mouse or pref. in future).");
 
   if (batchmode) {
 fprintf(stderr, "DVBcut/batchmode\n");
