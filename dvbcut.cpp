@@ -987,11 +987,17 @@ fprintf(stderr,"dvbcut::editSuggest/sequence size=%d, pictures=%d, increment=%d.
 x=sps_x;//440;//CLI position; TODO: set by mouse.
 y=sps_y;//190;//from CLI
 //decode loop
+
+//WiP: setup progress bar
+progressstatusbar psb(statusBar());
+psb.setprogress(100);
+psb.print("single pixel discontinuity decoding ...");
+
 unsigned int f=0;//frame
 for(unsigned int i=0;i<(unsigned int)seq_size;++i,f+=increment)
 {
   //decode image
-  QImage px=imgp->getimage(f,fine);//TODO: fine or coars
+  QImage px=imgp->getimage(f,fine);//TODO: fine true or false
   //select single pixel
   QRgb value=px.pixel(x,y);
 
@@ -1000,7 +1006,21 @@ single_pixel_sequence[i*4]  =qRed(value);
 single_pixel_sequence[i*4+1]=qGreen(value);
 single_pixel_sequence[i*4+2]=qBlue(value);
 single_pixel_sequence[i*4+3]=qAlpha(value);
-//TODO: setup progress bar
+//WiP: setup progress bar
+
+
+//    if (psb) {
+      psb.setprogress( (i+1)*1000/seq_size );
+      if (psb.cancelled()) {
+/*        if (p)
+          free(p);
+        p=0;
+        pictures=realpictures=0;
+*/
+        return;
+        }
+//      }
+
 }//decode loop
 
 CImg_print(single_pixel_sequence,true);
