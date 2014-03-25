@@ -967,11 +967,11 @@ void dvbcut::editSuggest()
   statusBar()->showMessage(QString("*** single pixel discontinuity running ... ***"));
 
 //init CIMG
-int seq_size;
+unsigned int seq_size;
 if(single_pixel_sequence.empty())
 {
 fprintf(stderr,"dvbcut::editSuggest/size single_pixel_sequence.");
-  seq_size=512;//default screen size; TODO: set by window width.
+  seq_size=sps_size;//512;//default screen size; TODO: set by window width.
   if(pictures<seq_size) seq_size=pictures;
   single_pixel_sequence.resize(seq_size*4);//RGBA storage
   for(unsigned int i=0;i<single_pixel_sequence.size();++i) single_pixel_sequence[i]=0;//fill with 0
@@ -984,8 +984,8 @@ if (!imgp)
   if(increment<1) increment=1;
 fprintf(stderr,"dvbcut::editSuggest/sequence size=%d, pictures=%d, increment=%d.\n",seq_size,pictures,increment);
   int x,y;
-x=440;//default position; TODO: set by mouse.
-y=190;//default
+x=sps_x;//440;//CLI position; TODO: set by mouse.
+y=sps_y;//190;//from CLI
 //decode loop
 unsigned int f=0;//frame
 for(unsigned int i=0;i<seq_size;++i,f+=increment)

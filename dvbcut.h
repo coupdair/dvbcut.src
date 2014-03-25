@@ -104,8 +104,11 @@ protected:
   bool stop_eof;
   Ui::dvbcutbase* ui;
 
+//Single Pixel Sequence
 std::vector<unsigned char> single_pixel_sequence;//len*RGBA
-  
+public:
+  int sps_x,sps_y,sps_size;
+
 protected:
   //   QPixmap getpixmap(int picture, bool allgop=false);
   void exportvideo(const char *fmt);

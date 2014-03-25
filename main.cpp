@@ -218,6 +218,11 @@ fprintf(stderr, "DVBcut/main\n");
   main->batchmode(batchmode);
   main->exportoptions(exportformat,start_bof,stop_eof);
 
+//CIMG
+main->sps_size=512;
+main->sps_x=440;
+main->sps_y=190;
+
   if (batchmode) {
 fprintf(stderr, "DVBcut/batchmode\n");
     if (filenames.empty())	// must provide at least one filename
