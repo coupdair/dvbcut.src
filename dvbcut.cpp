@@ -2233,6 +2233,11 @@ fprintf(stderr, "dvbcut::eventFilter/wheel_delta=%d\n",we->delta());
       else if (we->state() & Qt::Key_Shift)
       incr = WHEEL_INCR_SHIFT;
   }
+else if (e->type() == QEvent::MouseButtonPress)
+{
+  fprintf(stderr, "dvbcut::eventFilter/mouse event as MouseButtonPress\n");
+  myEvent = false;
+}
   else if (e->type() == QEvent::KeyPress)
   {//keyboard event
     QKeyEvent *ke = (QKeyEvent*)e;
