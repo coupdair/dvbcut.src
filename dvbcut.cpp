@@ -2208,12 +2208,22 @@ void dvbcut::setviewscalefactor(double factor)
 }
 
 bool dvbcut::eventFilter(QObject *watched, QEvent *e) {
+fprintf(stderr, "dvbcut::eventFilter(watched=%ld)\n",watched);
+fprintf(stderr, "! id=%ld/%c, js=%ld/%c; ls=%ld/%c\n"
+  ,ui->imagedisplay,(watched == ui->imagedisplay)?'T':'F'
+  ,ui->jogslider,(watched == ui->jogslider)?'T':'F'
+  ,ui->linslider,(watched == ui->linslider)?'T':'F'
+);
   bool myEvent = true;
   int delta = 0;
   int incr = WHEEL_INCR_NORMAL;
 
-  if (e->type() == QEvent::Wheel && watched != ui->jogslider) {
+  if (e->type() == QEvent::Wheel &&
+//    watched != ui->imagedisplay  &&
+    watched != ui->jogslider)
+  {//mouse wheel event
     QWheelEvent *we = (QWheelEvent*)e;
+fprintf(stderr, "dvbcut::eventFilter/wheel_delta=%d\n",we->delta());
     // Note: delta is a multiple of 120 (see Qt documentation)
     delta = we->delta();
       if (we->state() & Qt::Key_Alt)
@@ -2223,8 +2233,10 @@ bool dvbcut::eventFilter(QObject *watched, QEvent *e) {
       else if (we->state() & Qt::Key_Shift)
       incr = WHEEL_INCR_SHIFT;
   }
-  else if (e->type() == QEvent::KeyPress) {
+  else if (e->type() == QEvent::KeyPress)
+  {//keyboard event
     QKeyEvent *ke = (QKeyEvent*)e;
+fprintf(stderr, "dvbcut::eventFilter/key=%d*%d\n",ke->key(),ke->count());
     delta = ke->count() * settings().wheel_delta;
     if (ke->key() == Qt::Key_Right)
       delta = -delta;
@@ -2241,6 +2253,7 @@ bool dvbcut::eventFilter(QObject *watched, QEvent *e) {
     myEvent = false;
 
   if (myEvent) {
+fprintf(stderr, "dvbcut::eventFilter/process event\n");
     // process scroll event myself
     incr = settings().wheel_increments[incr];
       if (incr != 0) {
