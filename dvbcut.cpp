@@ -986,13 +986,11 @@ fprintf(stderr,"dvbcut::editSuggest/sequence size=%d, pictures=%d, increment=%d.
   int x,y;
 x=sps_x;//440;//CLI position; TODO: set by mouse.
 y=sps_y;//190;//from CLI
-//decode loop
-
-//WiP: setup progress bar
+//setup progress bar
 progressstatusbar psb(statusBar());
 psb.setprogress(100);
 psb.print("single pixel discontinuity decoding ...");
-
+//decode loop
 unsigned int f=0;//frame
 for(unsigned int i=0;i<(unsigned int)seq_size;++i,f+=increment)
 {
@@ -1006,20 +1004,12 @@ single_pixel_sequence[i*4]  =qRed(value);
 single_pixel_sequence[i*4+1]=qGreen(value);
 single_pixel_sequence[i*4+2]=qBlue(value);
 single_pixel_sequence[i*4+3]=qAlpha(value);
-//WiP: setup progress bar
 
-
-//    if (psb) {
+//update progress bar
       psb.setprogress( (i+1)*1000/seq_size );
       if (psb.cancelled()) {
-/*        if (p)
-          free(p);
-        p=0;
-        pictures=realpictures=0;
-*/
         return;
         }
-//      }
 
 }//decode loop
 
@@ -1314,6 +1304,7 @@ void dvbcut::playAudio2()
 
 void dvbcut::linslidervalue(int newpic)
 {
+fprintf(stderr,"dvbcut::dvbcut::linslidervalue(%d\n)",newpic);
   if (!mpg || newpic==curpic)
     return;
   if (!fine)
