@@ -1301,10 +1301,14 @@ void dvbcut::playAudio2()
 
 // **************************************************************************
 // ***  slots
+void dvbcut::mouseClickOnDisplay(QMouseEvent * ev)
+{//QLabel::mousePressEvent ( QMouseEvent * ev )
+fprintf(stderr,"dvbcut::dvbcut::mouseClickOnDisplay(b%d@(%d,%d))\n",ev->button(),ev->x(),ev->y());
+}
 
 void dvbcut::linslidervalue(int newpic)
 {
-fprintf(stderr,"dvbcut::dvbcut::linslidervalue(%d\n)",newpic);
+fprintf(stderr,"dvbcut::dvbcut::linslidervalue(%d)\n",newpic);
   if (!mpg || newpic==curpic)
     return;
   if (!fine)

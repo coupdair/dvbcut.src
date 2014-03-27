@@ -187,6 +187,7 @@ public slots:
   virtual void jogsliderreleased();
   virtual void jogslidervalue(int);
   virtual void linslidervalue(int);
+virtual void mouseClickOnDisplay(QMouseEvent *);
   virtual void doubleclickedeventlist(Q3ListBoxItem *lbi);
   virtual void eventlistcontextmenu(Q3ListBoxItem *, const QPoint &);
   virtual void mplayer_exited();

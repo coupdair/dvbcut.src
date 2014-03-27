@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'dvbcutbase.ui'
 **
-** Created: Sun Mar 23 11:44:47 2014
+** Created: Thu Mar 27 21:13:44 2014
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -540,6 +540,7 @@ public:
         retranslateUi(dvbcutbase);
         QObject::connect(fileCloseAction, SIGNAL(activated()), dvbcutbase, SLOT(fileClose()));
         QObject::connect(fileOpenAction, SIGNAL(activated()), dvbcutbase, SLOT(fileOpen()));
+        QObject::connect(imagedisplay, SIGNAL(mousePressEvent ( QMouseEvent *)), dvbcutbase, SLOT(mouseClickOnDisplay(QMouseEvent *)));
         QObject::connect(linslider, SIGNAL(valueChanged(int)), dvbcutbase, SLOT(linslidervalue(int)));
         QObject::connect(jogslider, SIGNAL(valueChanged(int)), dvbcutbase, SLOT(jogslidervalue(int)));
         QObject::connect(jogslider, SIGNAL(sliderReleased()), dvbcutbase, SLOT(jogsliderreleased()));
