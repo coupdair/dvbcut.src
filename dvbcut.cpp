@@ -134,6 +134,7 @@ dvbcut::dvbcut(QWidget *parent, const char *name, Qt::WFlags fl)
     mplayer_process(0), imgp(0), busy(0),
     viewscalefactor(1.0),
     nogui(false)
+,idgrab(false)
   {
     ui = new Ui::dvbcutbase();
     ui->setupUi(this);
@@ -965,7 +966,7 @@ void dvbcut::editSuggest()
 /**/
 /* single pixel discontinuity CIMG */
   statusBar()->showMessage(QString("*** single pixel discontinuity running ... ***"));
-
+/****
 //init CIMG
 int seq_size;
 if(single_pixel_sequence.empty())
@@ -1017,6 +1018,12 @@ CImg_print(single_pixel_sequence,true);
 
 //future detect
 //CImg_detect_single_pixel_discontinuity(single_pixel_sequence,true);
+****/
+
+//grab
+ui->imagedisplay->grabMouse();
+fprintf(stderr,"dvbcut::editSuggest/grabMouse\n");
+idgrab=true;
 
   statusBar()->showMessage(QString("*** single pixel discontinuity done. ***"));
 
@@ -2208,12 +2215,12 @@ void dvbcut::setviewscalefactor(double factor)
 }
 
 bool dvbcut::eventFilter(QObject *watched, QEvent *e) {
-fprintf(stderr, "dvbcut::eventFilter(watched=%ld)\n",watched);
-fprintf(stderr, "! id=%ld/%c, js=%ld/%c; ls=%ld/%c\n"
-  ,ui->imagedisplay,(watched == ui->imagedisplay)?'T':'F'
-  ,ui->jogslider,(watched == ui->jogslider)?'T':'F'
-  ,ui->linslider,(watched == ui->linslider)?'T':'F'
-);
+//fprintf(stderr, "dvbcut::eventFilter(watched=%ld)\n",watched);
+//fprintf(stderr, "! id=%ld/%c, js=%ld/%c; ls=%ld/%c\n"
+//  ,ui->imagedisplay,(watched == ui->imagedisplay)?'T':'F'
+//  ,ui->jogslider,(watched == ui->jogslider)?'T':'F'
+//  ,ui->linslider,(watched == ui->linslider)?'T':'F'
+//);
   bool myEvent = true;
   int delta = 0;
   int incr = WHEEL_INCR_NORMAL;
@@ -2237,7 +2244,15 @@ else if (e->type() == QEvent::MouseButtonPress)
 {
   fprintf(stderr, "dvbcut::eventFilter/mouse event as MouseButtonPress\n");
   myEvent = false;
-}
+
+  if(idgrab)
+  {
+    ui->imagedisplay->releaseMouse();
+    fprintf(stderr,"dvbcut::eventFilter/releaseMouse\n");
+    idgrab=false;
+  }//idgrab
+
+}//MouseButtonPress
   else if (e->type() == QEvent::KeyPress)
   {//keyboard event
     QKeyEvent *ke = (QKeyEvent*)e;

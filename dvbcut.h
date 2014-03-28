@@ -106,6 +106,7 @@ protected:
 
 //Single Pixel Sequence
 std::vector<unsigned char> single_pixel_sequence;//len*RGBA
+bool idgrab;//mouse event on image display
 public:
   int sps_x,sps_y,sps_size;
 
