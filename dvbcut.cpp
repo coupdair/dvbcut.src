@@ -1028,7 +1028,7 @@ idgrab=true;
   statusBar()->showMessage(QString("*** single pixel discontinuity done. ***"));
 
 /*CIMG*/
-}
+}//dvbcut::editSuggest
 
 void dvbcut::editImport()
 {
@@ -2216,11 +2216,6 @@ void dvbcut::setviewscalefactor(double factor)
 
 bool dvbcut::eventFilter(QObject *watched, QEvent *e) {
 //fprintf(stderr, "dvbcut::eventFilter(watched=%ld)\n",watched);
-//fprintf(stderr, "! id=%ld/%c, js=%ld/%c; ls=%ld/%c\n"
-//  ,ui->imagedisplay,(watched == ui->imagedisplay)?'T':'F'
-//  ,ui->jogslider,(watched == ui->jogslider)?'T':'F'
-//  ,ui->linslider,(watched == ui->linslider)?'T':'F'
-//);
   bool myEvent = true;
   int delta = 0;
   int incr = WHEEL_INCR_NORMAL;
@@ -2247,6 +2242,12 @@ else if (e->type() == QEvent::MouseButtonPress)
 
   if(idgrab)
   {
+    QMouseEvent *me = (QMouseEvent*)e;
+fprintf(stderr, "dvbcut::eventFilter[idgrab]/button=%d@(%d,%d)\n",me->button(),me->x(),me->y());
+fprintf(stderr, "  id@(%d,%d)\n",ui->imagedisplay->x(),ui->imagedisplay->y());
+int x=me->x()-290,y=me->y()-13;
+fprintf(stderr, "  id@static_correction(%d,%d)\n",x,y);
+
     ui->imagedisplay->releaseMouse();
     fprintf(stderr,"dvbcut::eventFilter/releaseMouse\n");
     idgrab=false;
