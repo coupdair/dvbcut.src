@@ -1021,8 +1021,6 @@ CImg_print(single_pixel_sequence,true);
 ****/
 
 //grab
-ui->imagedisplay->grabMouse();
-fprintf(stderr,"dvbcut::editSuggest/grabMouse\n");
 idgrab=true;
 
   statusBar()->showMessage(QString("*** single pixel discontinuity done. ***"));
@@ -1306,12 +1304,13 @@ void dvbcut::playAudio2()
 #endif // HAVE_LIB_AO
 }
 
-// **************************************************************************
-// ***  slots
 void dvbcut::mouseClickOnDisplay(QMouseEvent * ev)
 {//QLabel::mousePressEvent ( QMouseEvent * ev )
 fprintf(stderr,"dvbcut::dvbcut::mouseClickOnDisplay(b%d@(%d,%d))\n",ev->button(),ev->x(),ev->y());
 }
+
+// **************************************************************************
+// ***  slots
 
 void dvbcut::linslidervalue(int newpic)
 {
@@ -2243,6 +2242,7 @@ else if (e->type() == QEvent::MouseButtonPress)
   if(idgrab)
   {
     QMouseEvent *me = (QMouseEvent*)e;
+//! \todo: should call dvbcut::mouseClickOnDisplay(me)
 fprintf(stderr, "dvbcut::eventFilter[idgrab]/button=%d@(%d,%d)\n",me->button(),me->x(),me->y());
 fprintf(stderr, "  id@(%d,%d)in(%d,%d)\n",ui->imagedisplay->x(),ui->imagedisplay->y(),ui->imagedisplay->width(),ui->imagedisplay->height());
 int x=me->x()-290,y=me->y()-13;
@@ -2252,8 +2252,6 @@ int width=ui->imagedisplay->width(),height=ui->imagedisplay->height();
     if( x>0 && x<width && y>0 && y<height)
     {
       fprintf(stderr,"dvbcut::eventFilter/pixel is in image ... should process (TODO)\n");
-      ui->imagedisplay->releaseMouse();
-      fprintf(stderr,"dvbcut::eventFilter/releaseMouse\n");
       idgrab=false;
     }
   }//idgrab
@@ -2279,7 +2277,7 @@ fprintf(stderr, "dvbcut::eventFilter/key=%d*%d\n",ke->key(),ke->count());
     myEvent = false;
 
   if (myEvent) {
-fprintf(stderr, "dvbcut::eventFilter/process event\n");
+fprintf(stderr, "dvbcut::eventFilter/process scroll event\n");
     // process scroll event myself
     incr = settings().wheel_increments[incr];
       if (incr != 0) {
