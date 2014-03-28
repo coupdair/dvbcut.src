@@ -2253,7 +2253,7 @@ else if (e->type() == QEvent::MouseButtonPress)
   if(idgrab)
   {//look for image display mouse click
     QMouseEvent *me = (QMouseEvent*)e;
-    dvbcut::mouseClickOnDisplay(me)
+    dvbcut::mouseClickOnDisplay(me);
   }//idgrab
 
 }//MouseButtonPress
