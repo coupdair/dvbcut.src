@@ -134,7 +134,7 @@ dvbcut::dvbcut(QWidget *parent, const char *name, Qt::WFlags fl)
     mplayer_process(0), imgp(0), busy(0),
     viewscalefactor(1.0),
     nogui(false)
-,idgrab(false)
+,idclick(false)
   {
     ui = new Ui::dvbcutbase();
     ui->setupUi(this);
@@ -965,65 +965,10 @@ void dvbcut::editSuggest()
     statusBar()->showMessage(QString("*** No aspect ratio changes detected! ***"));   
 /**/
 /* single pixel discontinuity CIMG */
-  statusBar()->showMessage(QString("*** single pixel discontinuity running ... ***"));
-/****
-//init CIMG
-int seq_size;
-if(single_pixel_sequence.empty())
-{
-fprintf(stderr,"dvbcut::editSuggest/size single_pixel_sequence.");
-  seq_size=sps_size;//512;//default screen size; TODO: set by window width.
-  if(pictures<seq_size) seq_size=pictures;
-  single_pixel_sequence.resize(seq_size*4);//RGBA storage
-  for(unsigned int i=0;i<single_pixel_sequence.size();++i) single_pixel_sequence[i]=0;//fill with 0
-}
-//decode images
-if (!imgp)
-  imgp=new imageprovider(*mpg,new dvbcutbusy(this),false,viewscalefactor);
-  seq_size=single_pixel_sequence.size()/4;//RGBA
-  int increment=pictures/seq_size;
-  if(increment<1) increment=1;
-fprintf(stderr,"dvbcut::editSuggest/sequence size=%d, pictures=%d, increment=%d.\n",seq_size,pictures,increment);
-  int x,y;
-x=sps_x;//440;//CLI position; TODO: set by mouse.
-y=sps_y;//190;//from CLI
-//setup progress bar
-progressstatusbar psb(statusBar());
-psb.setprogress(100);
-psb.print("single pixel discontinuity decoding ...");
-//decode loop
-unsigned int f=0;//frame
-for(unsigned int i=0;i<(unsigned int)seq_size;++i,f+=increment)
-{
-  //decode image
-  QImage px=imgp->getimage(f,fine);//TODO: fine true or false
-  //select single pixel
-  QRgb value=px.pixel(x,y);
 
-//set value
-single_pixel_sequence[i*4]  =qRed(value);
-single_pixel_sequence[i*4+1]=qGreen(value);
-single_pixel_sequence[i*4+2]=qBlue(value);
-single_pixel_sequence[i*4+3]=qAlpha(value);
-
-//update progress bar
-      psb.setprogress( (i+1)*1000/seq_size );
-      if (psb.cancelled()) {
-        return;
-        }
-
-}//decode loop
-
-CImg_print(single_pixel_sequence,true);
-
-//future detect
-//CImg_detect_single_pixel_discontinuity(single_pixel_sequence,true);
-****/
-
-//activate looking for image display mouse click (see dvbcut::eventFilter)
-idgrab=true;
-
-  statusBar()->showMessage(QString("*** single pixel discontinuity done. ***"));
+  //activate looking for image display mouse click (see dvbcut::eventFilter)
+  idclick=true;
+  statusBar()->showMessage(QString("*** single pixel discontinuity: click the pixel in the image display ***"));
 
 /*CIMG*/
 }//dvbcut::editSuggest
@@ -1306,17 +1251,75 @@ void dvbcut::playAudio2()
 
 void dvbcut::mouseClickOnDisplay(QMouseEvent * me)
 {//should be QLabel::mousePressEvent ( QMouseEvent * ev ), but Qlabel (Qt3) is not handling it (i.e. slot not avalaible -run time warning in Qt3-)
-fprintf(stderr,"dvbcut::dvbcut::mouseClickOnDisplay/button=%d@(%d,%d)\n",me->button(),me->x(),me->y());
+fprintf(stderr,"dvbcut::mouseClickOnDisplay/button=%d@(%d,%d)\n",me->button(),me->x(),me->y());
 fprintf(stderr, "  id@(%d,%d)in(%d,%d)\n",ui->imagedisplay->x(),ui->imagedisplay->y(),ui->imagedisplay->width(),ui->imagedisplay->height());
   int x=me->x()-290,y=me->y()-13;//! \bug static correction of (x,y) position in display image, it might change from OS or GUI  :(
 fprintf(stderr, "  id@static_correction(%d,%d)\n",x,y);
   int width=ui->imagedisplay->width(),height=ui->imagedisplay->height();
   //check if mouse in image display
+//! \bug a click in menu or tool bar could be "valid" i.e. considered as within the image display
   if( x>0 && x<width && y>0 && y<height)
   {
-    fprintf(stderr,"dvbcut::eventFilter/pixel is in image ... should process (TODO)\n");
+    fprintf(stderr,"dvbcut::eventFilter/pixel is in image ...\n");
+    statusBar()->showMessage(QString("*** single pixel discontinuity running ... ***"));
+
+/****
+//init CIMG
+int seq_size;
+if(single_pixel_sequence.empty())
+{
+fprintf(stderr,"dvbcut::mouseClickOnDisplay/size single_pixel_sequence.");
+  seq_size=sps_size;//512;//default screen size; TODO: set by window width.
+  if(pictures<seq_size) seq_size=pictures;
+  single_pixel_sequence.resize(seq_size*4);//RGBA storage
+  for(unsigned int i=0;i<single_pixel_sequence.size();++i) single_pixel_sequence[i]=0;//fill with 0
+}
+//decode images
+if (!imgp)
+  imgp=new imageprovider(*mpg,new dvbcutbusy(this),false,viewscalefactor);
+  seq_size=single_pixel_sequence.size()/4;//RGBA
+  int increment=pictures/seq_size;
+  if(increment<1) increment=1;
+fprintf(stderr,"dvbcut::mouseClickOnDisplay/sequence size=%d, pictures=%d, increment=%d.\n",seq_size,pictures,increment);
+  int x,y;
+x=sps_x;//440;//CLI position; TODO: set by mouse.
+y=sps_y;//190;//from CLI
+//setup progress bar
+progressstatusbar psb(statusBar());
+psb.setprogress(100);
+psb.print("single pixel discontinuity decoding ...");
+//decode loop
+unsigned int f=0;//frame
+for(unsigned int i=0;i<(unsigned int)seq_size;++i,f+=increment)
+{
+  //decode image
+  QImage px=imgp->getimage(f,fine);//TODO: fine true or false
+  //select single pixel
+  QRgb value=px.pixel(x,y);
+
+//set value
+single_pixel_sequence[i*4]  =qRed(value);
+single_pixel_sequence[i*4+1]=qGreen(value);
+single_pixel_sequence[i*4+2]=qBlue(value);
+single_pixel_sequence[i*4+3]=qAlpha(value);
+
+//update progress bar
+      psb.setprogress( (i+1)*1000/seq_size );
+      if (psb.cancelled()) {
+        return;
+        }
+
+}//decode loop
+
+CImg_print(single_pixel_sequence,true);
+
+//future detect
+//CImg_detect_single_pixel_discontinuity(single_pixel_sequence,true);
+****/
+
     //not any more looking for mouse click in image display
-    idgrab=false;
+    idclick=false;
+    statusBar()->showMessage(QString("*** single pixel discontinuity done. ***"));
   }
 }//dvbcut::mouseClickOnDisplay
 
@@ -2226,7 +2229,7 @@ void dvbcut::setviewscalefactor(double factor)
 
 bool dvbcut::eventFilter(QObject *watched, QEvent *e) {
 //fprintf(stderr, "dvbcut::eventFilter(watched=%ld)\n",watched);
-  bool myEvent = true;
+  bool scrollEvent = true;
   int delta = 0;
   int incr = WHEEL_INCR_NORMAL;
 
@@ -2248,13 +2251,13 @@ fprintf(stderr, "dvbcut::eventFilter/wheel_delta=%d\n",we->delta());
 else if (e->type() == QEvent::MouseButtonPress)
 {
   fprintf(stderr, "dvbcut::eventFilter/mouse event as MouseButtonPress\n");
-  myEvent = false;
+  scrollEvent = false;
 
-  if(idgrab)
+  if(idclick)
   {//look for image display mouse click
     QMouseEvent *me = (QMouseEvent*)e;
     dvbcut::mouseClickOnDisplay(me);
-  }//idgrab
+  }//idclick
 
 }//MouseButtonPress
   else if (e->type() == QEvent::KeyPress)
@@ -2265,7 +2268,7 @@ fprintf(stderr, "dvbcut::eventFilter/key=%d*%d\n",ke->key(),ke->count());
     if (ke->key() == Qt::Key_Right)
       delta = -delta;
     else if (ke->key() != Qt::Key_Left)
-      myEvent = false;
+      scrollEvent = false;
     if (ke->state() & Qt::Key_Alt)
       incr = WHEEL_INCR_ALT;
     else if (ke->state() & Qt::Key_Control)
@@ -2274,9 +2277,9 @@ fprintf(stderr, "dvbcut::eventFilter/key=%d*%d\n",ke->key(),ke->count());
       incr = WHEEL_INCR_SHIFT;
   }
   else
-    myEvent = false;
+    scrollEvent = false;
 
-  if (myEvent) {
+  if (scrollEvent) {
 fprintf(stderr, "dvbcut::eventFilter/process scroll event\n");
     // process scroll event myself
     incr = settings().wheel_increments[incr];
