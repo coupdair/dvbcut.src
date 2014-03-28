@@ -1020,7 +1020,7 @@ CImg_print(single_pixel_sequence,true);
 //CImg_detect_single_pixel_discontinuity(single_pixel_sequence,true);
 ****/
 
-//grab
+//activate looking for image display mouse click (see dvbcut::eventFilter)
 idgrab=true;
 
   statusBar()->showMessage(QString("*** single pixel discontinuity done. ***"));
@@ -1304,10 +1304,21 @@ void dvbcut::playAudio2()
 #endif // HAVE_LIB_AO
 }
 
-void dvbcut::mouseClickOnDisplay(QMouseEvent * ev)
-{//QLabel::mousePressEvent ( QMouseEvent * ev )
-fprintf(stderr,"dvbcut::dvbcut::mouseClickOnDisplay(b%d@(%d,%d))\n",ev->button(),ev->x(),ev->y());
-}
+void dvbcut::mouseClickOnDisplay(QMouseEvent * me)
+{//should be QLabel::mousePressEvent ( QMouseEvent * ev ), but Qlabel (Qt3) is not handling it (i.e. slot not avalaible -run time warning in Qt3-)
+fprintf(stderr,"dvbcut::dvbcut::mouseClickOnDisplay/button=%d@(%d,%d)\n",me->button(),me->x(),me->y());
+fprintf(stderr, "  id@(%d,%d)in(%d,%d)\n",ui->imagedisplay->x(),ui->imagedisplay->y(),ui->imagedisplay->width(),ui->imagedisplay->height());
+  int x=me->x()-290,y=me->y()-13;//! \bug static correction of (x,y) position in display image, it might change from OS or GUI  :(
+fprintf(stderr, "  id@static_correction(%d,%d)\n",x,y);
+  int width=ui->imagedisplay->width(),height=ui->imagedisplay->height();
+  //check if mouse in image display
+  if( x>0 && x<width && y>0 && y<height)
+  {
+    fprintf(stderr,"dvbcut::eventFilter/pixel is in image ... should process (TODO)\n");
+    //not any more looking for mouse click in image display
+    idgrab=false;
+  }
+}//dvbcut::mouseClickOnDisplay
 
 // **************************************************************************
 // ***  slots
@@ -2240,20 +2251,9 @@ else if (e->type() == QEvent::MouseButtonPress)
   myEvent = false;
 
   if(idgrab)
-  {
+  {//look for image display mouse click
     QMouseEvent *me = (QMouseEvent*)e;
-//! \todo: should call dvbcut::mouseClickOnDisplay(me)
-fprintf(stderr, "dvbcut::eventFilter[idgrab]/button=%d@(%d,%d)\n",me->button(),me->x(),me->y());
-fprintf(stderr, "  id@(%d,%d)in(%d,%d)\n",ui->imagedisplay->x(),ui->imagedisplay->y(),ui->imagedisplay->width(),ui->imagedisplay->height());
-int x=me->x()-290,y=me->y()-13;
-fprintf(stderr, "  id@static_correction(%d,%d)\n",x,y);
-int width=ui->imagedisplay->width(),height=ui->imagedisplay->height();
-
-    if( x>0 && x<width && y>0 && y<height)
-    {
-      fprintf(stderr,"dvbcut::eventFilter/pixel is in image ... should process (TODO)\n");
-      idgrab=false;
-    }
+    dvbcut::mouseClickOnDisplay(me)
   }//idgrab
 
 }//MouseButtonPress
