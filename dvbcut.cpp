@@ -2244,13 +2244,18 @@ else if (e->type() == QEvent::MouseButtonPress)
   {
     QMouseEvent *me = (QMouseEvent*)e;
 fprintf(stderr, "dvbcut::eventFilter[idgrab]/button=%d@(%d,%d)\n",me->button(),me->x(),me->y());
-fprintf(stderr, "  id@(%d,%d)\n",ui->imagedisplay->x(),ui->imagedisplay->y());
+fprintf(stderr, "  id@(%d,%d)in(%d,%d)\n",ui->imagedisplay->x(),ui->imagedisplay->y(),ui->imagedisplay->width(),ui->imagedisplay->height());
 int x=me->x()-290,y=me->y()-13;
 fprintf(stderr, "  id@static_correction(%d,%d)\n",x,y);
+int width=ui->imagedisplay->width(),height=ui->imagedisplay->height();
 
-    ui->imagedisplay->releaseMouse();
-    fprintf(stderr,"dvbcut::eventFilter/releaseMouse\n");
-    idgrab=false;
+    if( x>0 && x<width && y>0 && y<height)
+    {
+      fprintf(stderr,"dvbcut::eventFilter/pixel is in image ... should process (TODO)\n");
+      ui->imagedisplay->releaseMouse();
+      fprintf(stderr,"dvbcut::eventFilter/releaseMouse\n");
+      idgrab=false;
+    }
   }//idgrab
 
 }//MouseButtonPress
