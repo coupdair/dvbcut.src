@@ -1263,6 +1263,15 @@ fprintf(stderr, "  id@static_correction(%d,%d)\n",x,y);
     fprintf(stderr,"dvbcut::eventFilter/pixel is in image ...\n");
     statusBar()->showMessage(QString("*** single pixel discontinuity running ... ***"));
 
+    //set chosen pixel
+    QImage px=imgp->getimage(curpic,fine);
+    uint color=0;
+    px.setPixel(x,y,color);
+    ui->imagedisplay->setPixmap(QPixmap::fromImage(px));
+    ui->imagedisplay->update();
+    qApp->processEvents();
+
+    //sps process
 /****/
 //init CIMG
 int seq_size;
