@@ -79,6 +79,7 @@ usage_exit(int rv=1) {
     "-automarker sets START/STOP markers at BOF/EOF (0=none,1=BOF,2=EOF,3=both).\n\n");
   fprintf(stderr,
     "Options may be abbreviated as long as they remain unambiguous.\n\n");
+
   exit(rv);
 }
 
@@ -92,6 +93,12 @@ main(int argc, char *argv[]) {
   std::vector<std::string> cutlist;
   std::list<std::string> filenames;
   int i;
+
+//CIMG
+cimg_usage("CImg CLI used for a few options.");
+int sps_size=cimg_option("-s",123,"sps_size: bookmark size search (tmp: auto. window width in future).");
+int sps_x=cimg_option("-x",440,"sps_x: pixel position along x axis.");
+int sps_y=cimg_option("-y",190,"sps_y: pixel position along y axis (or mouse set by user -M shortcut-).");
 
   setlocale(LC_ALL, "");
   textdomain("dvbcut");
@@ -130,9 +137,9 @@ main(int argc, char *argv[]) {
           pch = strtok(NULL,",-|;");                 
         }
       }
-else if (strncmp(argv[i], "-s", n) == 0) ; //later process
-else if (strncmp(argv[i], "-x", n) == 0) ; //later process
-else if (strncmp(argv[i], "-y", n) == 0) ; //later process
+else if (strncmp(argv[i], "-s", n) == 0) ; //previously processed
+else if (strncmp(argv[i], "-x", n) == 0) ; //previously processed
+else if (strncmp(argv[i], "-y", n) == 0) ; //previously processed
       else 
         usage_exit(); 
     } else
@@ -223,9 +230,10 @@ fprintf(stderr, "DVBcut/main\n");
   main->exportoptions(exportformat,start_bof,stop_eof);
 
 //CIMG
-main->sps_size=cimg_option("-s",512,"sps_size: bookmark size search (tmp: auto. window width in future).");
-main->sps_x=cimg_option("-x",440,"sps_x: pixel position along x axis.");
-main->sps_y=cimg_option("-y",190,"sps_y: pixel position along y axis (tmp: by mouse or pref. in future).");
+fprintf(stderr, "main.cpp/cimg_option\n");
+main->sps_size=sps_size;
+main->sps_x=sps_x;
+main->sps_y=sps_y;
 
   if (batchmode) {
 fprintf(stderr, "DVBcut/batchmode\n");

@@ -1263,7 +1263,7 @@ fprintf(stderr, "  id@static_correction(%d,%d)\n",x,y);
     fprintf(stderr,"dvbcut::eventFilter/pixel is in image ...\n");
     statusBar()->showMessage(QString("*** single pixel discontinuity running ... ***"));
 
-    //set chosen pixel
+    //set chosen pixel, so it's position can be seen by user
     QImage px=imgp->getimage(curpic,fine);
     uint color=0;
     px.setPixel(x,y,color);
@@ -1277,12 +1277,11 @@ fprintf(stderr, "  id@static_correction(%d,%d)\n",x,y);
 int seq_size;
 if(single_pixel_sequence.empty())
 {
-fprintf(stderr,"dvbcut::mouseClickOnDisplay/size single_pixel_sequence.");
+fprintf(stderr,"dvbcut::mouseClickOnDisplay/size single_pixel_sequence with %d size.",sps_size);
 fflush(stderr);
   seq_size=sps_size;//512;//default screen size; TODO: set by window width.
   if(seq_size<16) seq_size=16;//Set at least a few points
   if(pictures<seq_size) seq_size=pictures;
-fprintf(stderr,"seq_size=%d, pictures=%d, sps_size=%d.\n",seq_size,pictures,sps_size);
   single_pixel_sequence.resize(seq_size*4);//RGBA storage
   for(unsigned int i=0;i<single_pixel_sequence.size();++i) single_pixel_sequence[i]=0;//fill with 0
 }//empty sequence
@@ -1290,19 +1289,11 @@ fprintf(stderr,"decode images, ");fflush(stderr);
 //decode images
 if (!imgp)
   imgp=new imageprovider(*mpg,new dvbcutbusy(this),false,viewscalefactor);
-fprintf(stderr,"seq_size, ");fflush(stderr);
   seq_size=single_pixel_sequence.size()/4;//RGBA
-fprintf(stderr,"increment, ");fflush(stderr);
-fprintf(stderr,"size=%d, pictures=%d.\n",seq_size,pictures);
   int increment=pictures/seq_size;
-fprintf(stderr,"if, ");fflush(stderr);
   if(increment<1) increment=1;
 fprintf(stderr,"dvbcut::mouseClickOnDisplay/sequence size=%d, pictures=%d, increment=%d.\n",seq_size,pictures,increment);
 fflush(stderr);
-
-//  int x,y;
-//x=sps_x;//440;//CLI position; TODO: set by mouse.
-//y=sps_y;//190;//from CLI
 
 //setup progress bar
 progressstatusbar psb(statusBar());
