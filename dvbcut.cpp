@@ -1304,7 +1304,7 @@ unsigned int f=0;//frame
 for(unsigned int i=0;i<(unsigned int)seq_size;++i,f+=increment)
 {
   //decode image
-  QImage px=imgp->getimage(f,fine);//TODO: fine true or false OR lastiframe
+  QImage px=imgp->getimage(mpg->lastiframe(f),fine);//TODO: fine true or false OR lastiframe
   //select single pixel
   QRgb value=px.pixel(x,y);
 
