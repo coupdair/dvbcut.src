@@ -1322,9 +1322,15 @@ single_pixel_sequence[i*4+3]=qAlpha(value);
 
 }//decode loop
 
-int g_width=1024,g_height=64;
-unsigned char *graph=new unsigned char[g_width*g_height*4];
+//create graph
+int g_width=512,g_height=64;
+unsigned char *graph=new unsigned char[g_width*g_height*3];
 CImg_print(single_pixel_sequence,true,graph,g_width,g_height);
+//show graph
+    QImage gx(graph,g_width,g_height,QImage::Format_RGB32);
+    ui->imagedisplay->setPixmap(QPixmap::fromImage(gx));
+    ui->imagedisplay->update();
+    qApp->processEvents();
 delete[] graph;
 
 //future detect
