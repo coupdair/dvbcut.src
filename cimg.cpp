@@ -26,7 +26,9 @@ using namespace cimg_library;
 
 //template<typename T>
 //void CImg_print(std::vector<T> single_pixel_sequence, bool show)
-void CImg_print(std::vector<unsigned char> single_pixel_sequence, bool show)
+void CImg_print(std::vector<unsigned char> single_pixel_sequence, bool show
+  ,unsigned char* graph,int width,int height
+)
 {
   //print
 //  CImg<T> data(&(single_pixel_sequence[0]),4,single_pixel_sequence.size()/4);
@@ -35,8 +37,13 @@ void CImg_print(std::vector<unsigned char> single_pixel_sequence, bool show)
   data.print("CImg_print/single_pixel_sequence");
   if(show)
   {
+    const unsigned char red[4]={255,0,0,255};
+    const unsigned char white[4]={255,255,255,255};
     data.display("CImg_print/single_pixel_sequence");
-    data.display_graph("CImg_print/single_pixel_sequence");
+    CImg<unsigned char> g(graph,width,height,1,4);
+    g.fill(white);
+    g.draw_graph(data,red);
+    g.display("CImg_print/single_pixel_sequence");
     data.save("dvbcut_single_pixel_sequence_graph.tif");//see home directory
   }
   return;

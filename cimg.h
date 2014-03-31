@@ -12,6 +12,8 @@
 
 //template<typename T>
 //void CImg_print(std::vector<T> single_pixel_sequence, bool show=false);
-void CImg_print(std::vector<unsigned char> single_pixel_sequence, bool show=false);
+//void CImg_print(std::vector<unsigned char> single_pixel_sequence, bool show=false);
+void CImg_print(std::vector<unsigned char> single_pixel_sequence, bool show
+  ,unsigned char* graph,int width,int height);
 
 #endif

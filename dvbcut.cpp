@@ -1322,7 +1322,10 @@ single_pixel_sequence[i*4+3]=qAlpha(value);
 
 }//decode loop
 
-CImg_print(single_pixel_sequence,true);
+int g_width=1024,g_height=64;
+unsigned char *graph=new unsigned char[g_width*g_height*4];
+CImg_print(single_pixel_sequence,true,graph,g_width,g_height);
+delete[] graph;
 
 //future detect
 //CImg_detect_single_pixel_discontinuity(single_pixel_sequence,true);
