@@ -1322,7 +1322,7 @@ single_pixel_sequence[i*4+3]=qAlpha(value);
 
 }//decode loop
 
-CImg_print(single_pixel_sequence,true,768,64);
+CImg_print(single_pixel_sequence,true,768,32);
 
 //future detect
 //CImg_detect_single_pixel_discontinuity(single_pixel_sequence,true);

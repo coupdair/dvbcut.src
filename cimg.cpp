@@ -55,6 +55,7 @@ void CImg_print(std::vector<unsigned char> single_pixel_sequence, bool show
     g.draw_graph(data.get_shared_channel(0),red  ,1,1,1,0,255);
     g.draw_graph(data.get_shared_channel(1),green,1,1,1,0,255);
     g.draw_graph(data.get_shared_channel(2),blue ,1,1,1,0,255);
+    g.mirror('y');//flip
     disp.display(g);
 //    disp.display("CImg_print/single_pixel_sequence");
 
