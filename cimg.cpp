@@ -39,8 +39,8 @@ void CImg_print(std::vector<unsigned char> single_pixel_sequence, bool show
   data.print("CImg_print/single_pixel_sequence");
   if(show)
   {
-//    disp.assign(width,height);
-    disp.display(data);
+    disp.assign(width,height);
+//    disp.display(data);
 
     //image
     data.display("CImg_print/single_pixel_sequence");
