@@ -24,6 +24,8 @@
 #include "CImg.h"
 using namespace cimg_library;
 
+CImgDisplay disp;
+
 //template<typename T>
 //void CImg_print(std::vector<T> single_pixel_sequence, bool show)
 void CImg_print(std::vector<unsigned char> single_pixel_sequence, bool show
@@ -37,7 +39,8 @@ void CImg_print(std::vector<unsigned char> single_pixel_sequence, bool show
   data.print("CImg_print/single_pixel_sequence");
   if(show)
   {
-    CImgDisplay disp(width,height);
+//    disp.assign(width,height);
+    disp.display(data);
 
     //image
     data.display("CImg_print/single_pixel_sequence");
