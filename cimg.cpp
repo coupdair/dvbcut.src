@@ -47,7 +47,7 @@ void CImg_print(std::vector<unsigned char> single_pixel_sequence, bool show
     data.display_graph("CImg_print/single_pixel_sequence");
 
     //display
-//    data.display_graph(disp);
+    data.display_graph(disp);
 //    disp.display("CImg_print/single_pixel_sequence");
 
     data.save("dvbcut_single_pixel_sequence_graph.tif");//see home directory
