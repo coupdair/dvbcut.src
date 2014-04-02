@@ -39,15 +39,22 @@ void CImg_print(std::vector<unsigned char> single_pixel_sequence, bool show
   data.print("CImg_print/single_pixel_sequence");
   if(show)
   {
-    disp.assign(width,height);
-//    disp.display(data);
-
-    //image
+    //standard image
     data.display("CImg_print/single_pixel_sequence");
     data.display_graph("CImg_print/single_pixel_sequence");
 
     //display
-    data.display_graph(disp);
+    const unsigned char red  []={255,0,0,255};
+    const unsigned char green[]={0,255,0,255};
+    const unsigned char blue []={0,0,255,255};
+    disp.assign(width,height);
+    CImg<unsigned char> g(data,width,height,1,3);
+    g.fill(255);
+    g.draw_graph(data.get_shared_channel(0),red  ,1,1,1,0,255);
+    g.draw_graph(data.get_shared_channel(1),green,1,1,1,0,255);
+    g.draw_graph(data.get_shared_channel(2),blue ,1,1,1,0,255);
+    disp.display(g);
+//    data.display_graph(disp);
 //    disp.display("CImg_print/single_pixel_sequence");
 
     data.save("dvbcut_single_pixel_sequence_graph.tif");//see home directory
