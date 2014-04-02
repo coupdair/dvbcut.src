@@ -34,14 +34,16 @@ void CImg_print(std::vector<unsigned char> single_pixel_sequence, bool show
 {
   //print
 //  CImg<T> data(&(single_pixel_sequence[0]),4,single_pixel_sequence.size()/4);
-  CImg<unsigned char> data(&(single_pixel_sequence[0]),4,single_pixel_sequence.size()/4);
+  CImg<unsigned char> data(&(single_pixel_sequence[0]),4,single_pixel_sequence.size()/4+2);
+  int p=data.height()-2;data(3,p)=data(2,p)=data(1,p)=data(0,p)=255;
+      p=data.height()-1;data(3,p)=data(2,p)=data(1,p)=data(0,p)=0;
   data.permute_axes("yzcx");
   data.print("CImg_print/single_pixel_sequence");
   if(show)
   {
     //standard image
-    data.display("CImg_print/single_pixel_sequence");
-    data.display_graph("CImg_print/single_pixel_sequence");
+//    data.display("CImg_print/single_pixel_sequence");
+//    data.display_graph("CImg_print/single_pixel_sequence");
 
     //display
     const unsigned char red  []={255,0,0,255};
@@ -54,7 +56,6 @@ void CImg_print(std::vector<unsigned char> single_pixel_sequence, bool show
     g.draw_graph(data.get_shared_channel(1),green,1,1,1,0,255);
     g.draw_graph(data.get_shared_channel(2),blue ,1,1,1,0,255);
     disp.display(g);
-//    data.display_graph(disp);
 //    disp.display("CImg_print/single_pixel_sequence");
 
     data.save("dvbcut_single_pixel_sequence_graph.tif");//see home directory
