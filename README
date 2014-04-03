@@ -1,0 +1,17 @@
+
+#DVBcut in 3 repositories
+##0. archive: DVBcut+libAV
+https://github.com/coupdair/dvbcut.archive
+CImg (dev)
+libav
+dvbcut
+
+##1.
+https://github.com/coupdair/dvbcut
+ffmpeg (livrary: .h, ..., .a from libav)
+dvbcut
+
+##2. 
+https://github.com/coupdair/dvbcut.src
+dvbcut/src
+
