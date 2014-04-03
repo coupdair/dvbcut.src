@@ -15,3 +15,21 @@ dvbcut
 https://github.com/coupdair/dvbcut.src
 dvbcut/src
 
+
+#get it all, i.e. 0, 1, 2:
+git clone git@github.com:coupdair/dvbcut.archive.git
+mv dvbcut.archive code.dvbcut
+cd code.dvbcut
+rm -fr dvbcut-0.5.4+svn178
+git clone git@github.com:coupdair/dvbcut.git
+mv dvbcut dvbcut-0.5.4+svn178
+cd dvbcut-0.5.4+svn178
+rm -fr src
+git clone git@github.com:coupdair/dvbcut.src.git
+mv dvbcut.src src
+cd src
+git branch -a
+git checkout -b dev_cimg_static origin/dev_cimg_static
+cat ../../_info.dvbcut.txt
+
+
